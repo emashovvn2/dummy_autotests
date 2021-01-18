@@ -1,0 +1,489 @@
+include "common.testo"
+
+network internet {
+	mode: "nat"
+}
+
+machine win_10 {
+    cpus: 4
+    ram: 4Gb
+    disk main: {
+        source: "/var/lib/libvirt/images/win10.qcow2"
+    }
+
+    nic nat: {
+    	attached_to: "internet"
+    }
+}
+
+
+
+test InfinityClientSecurity_installation {
+
+	win_10 {
+    	start
+    	win_wait("Admin", "Qwerty@123")
+    	#sleep 30s
+    	
+    	click_and_wait("SCADA", "InfinitySetup", "10", "from_bottom", "0", "2", "1")
+    	click_and_wait("InfinitySetup", "Разрешить этому приложению", "10", "from_bottom", "0", "2", "1")
+    	wait "Источник файла: Жесткий диск компьютера"; mouse click "Да".from_bottom(0)
+    	wait "Выберите нужный язык из списка"
+    	press Enter
+    	wait "InfinityOLEDBProvider" timeout 5m; mouse click "InfinityOLEDBProvider"
+    	for (i IN RANGE 0 50) {
+	    	if (check "InfinityClientSecurity") {
+	    		press Space
+	    		wait "Microsoft Visual C++"; press Enter
+	    		break
+	    	} else {
+	    		press Down
+	    		
+	    	}
+    	}
+    	mouse click "Установить".from_bottom(0)
+    	wait "Я согласен с условиями"; mouse click "Я согласен с условиями"
+    	click_and_wait("Далее", "Тип установки", "20", "from_bottom", "0", "1", "1")
+    	#mouse click "Далее".from_bottom(0)
+    	sleep 2s
+    	click_and_wait("Далее", "Готова к установке", "20", "from_bottom", "0", "1", "1")
+    	#mouse click "Далее".from_bottom(0)
+    	click_and_wait("Установить", "Процесс установки компонентов", "20", "from_bottom", "0", "1", "1")
+    	#wait "Установить"; mouse click "Установить".from_bottom(0)
+    	wait "Установка завершена" timeout 15m; 
+    	click_and_wait_wanish_2("ОК", "Установка завершена", "10", "from_bottom", "0", "1")
+    	wait "InfinityOLEDBProvider" timeout 15m; 
+    	click_and_wait_wanish("Выйти", "Выбрано компонентов", "10", "from_bottom", "0", "1")
+    	sleep 10s
+    	clear_IA()
+    	sleep 5s
+    	shutdown timeout 10m
+    	start
+    	win_wait("Admin", "Qwerty@123")
+    	sleep 30s
+
+	}
+}
+
+
+test CheckMenuItems: InfinityClientSecurity_installation{
+	win_10 {
+		click_and_wait("Управл", "Управление Infinity", "20", "from_bottom", "0", "2", "1")
+		wait "Локально" timeout 3m
+		mouse click "Клиентская безопасность"
+		mouse click "Время".move_down(50)
+		sleep 10s
+		mouse click "Файл"
+		wait "Сохранить изменения"
+		wait "Загрузить файл по умолчанию"
+		wait "Импорт файла"
+		wait "Выход"
+		press ESC
+		mouse click "Настройки"
+		wait "Политика паролей"
+		press ESC
+		mouse click "Действия"
+		wait "Добавить"
+		wait "Удалить"
+		press ESC
+		mouse click "Справка"
+		wait "Справка: InfinityClientSecurity Manager"
+		wait "О программе..."
+		mouse click "О программе..."
+		wait "Программа настройки прав доступа"
+		click_and_wait_wanish("OK", "Программа настройки прав доступа", "10", "from_bottom", "0", "1")
+		click_and_wait("Справка", "Справка: InfinityClientSecurity Manager", "10", "from_bottom", "0", "1", "0")
+		click_and_wait("Справка: InfinityClientSecurity Manager", "Для управления правами доступа", "40", "from_bottom", "0", "1", "0")
+		press LEFTALT + F4
+		#Проверяем наличие после загрузки ОС в журнале аудита следующих сообщений
+		#1004	WIN10_AUTOTEST\Незарегистрированный - Проверка прав: Администрирование InfinityClientSecurity - Доступ разрешен
+		#1150	WIN10_AUTOTEST\Незарегистрированный - Система клиентской безопасности не настроена, действия пользователей не ограничиваются
+		#1007	Служба безопасности лицензирована Лицензия постоянная.
+		#1003	Версия файла настроек: 5
+		#1001	WIN10_AUTOTEST\Незарегистрированный - Служба безопасности запущена
+		run_cmd()
+		sleep 2s
+		RU_TO_ENG()
+		find_event_with_clear_terminal("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1001")
+		find_event_with_clear_terminal("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1003")
+		find_event_with_clear_terminal("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1004_16")
+		find_event_with_clear_terminal("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1007")
+		find_event_with_clear_terminal("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1150")
+		press LEFTALT + F4
+		sleep 2s
+
+	}
+}
+
+
+
+test AddGroup: InfinityClientSecurity_installation{
+	win_10 {
+		click_and_wait("Управл", "Управление Infinity", "30", "from_bottom", "0", "2", "1")
+		wait "Локально" timeout 3m
+		clear_IA()
+		mouse click "Клиентская безопасность"
+		mouse click "Время".move_down(50)
+		run_cmd()
+		#Проверяем запись о открытии конфигуратора
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f \"ics_run_setup_grants\"")
+
+
+		#Создание группы через меню Действия
+		mouse click "Настройка прав доступа"
+		mouse click "Группы".from_left(0)
+		mouse click "Действия"
+		mouse click "Добавить"
+		wait "Создание/удаление групп"
+		mouse click "Создать"
+		wait "Создание новой группы"
+		#Отрицательный результат при создании группы с пустым именем
+		mouse click "Создать".from_top(0)
+		wait "Название группы не может быть пустым"
+		click_and_wait_wanish("OK", "Название группы не может быть пустым", "10", "from_bottom", "0", "1")
+		#Положительный результат создание группы Users
+		mouse click "Название группы".move_down(10)
+		RU_TO_ENG()
+		type "Users"
+		mouse click "Создать".from_left(0)
+		wait "Группа успешно создана"
+		mouse click "OK".from_bottom(0)
+		mouse click "Сохранить"
+		#Проверяем запись в журнале аудита
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f \"ics_add_group_1\"")
+
+
+
+		#Проверка создания группы через правую кнопку мыши
+		mouse rclick "Группы".from_left(0)
+		wait "Добавление/удаление групп"
+		mouse click "Добавление/удаление групп"
+		wait "Создание/удаление групп"
+		mouse click "Создать"
+		wait "Создание новой группы"
+		#Отрицательный результат при создании группы с пустым именем
+		mouse click "Создать".from_top(0)
+		wait "Название группы не может быть пустым"
+		#click_and_wait_wanish("OK", "Название группы не может быть пустым", "10", "from_right", "0", "1")
+		#По непонятной причине, строка сверху не работает (хз где он ОК находит, но не там где надо)
+		for (i IN RANGE 0 50) {
+	    	if (check "Название группы не может быть пустым") {
+				mouse click "Название группы не может быть пустым".move_down(55).move_right(106)#########
+				sleep 2s
+			} else {
+				break
+			}
+		}
+		#Положительный результат создание группы Users
+		ENG_TO_RU()
+		sleep 2s
+		mouse click "Название группы".move_right(50)
+		type "Пользователи"
+		mouse click "Создать".from_top(0)
+		wait "Группа успешно создана"
+		#click_and_wait_wanish("OK", "Группа успешно создана", "5", "from_bottom", "0", "1")#########
+		for (i IN RANGE 0 50) {
+	    	if (check "Группа успешно создана") {
+				mouse click "Группа успешно создана".move_down(55).move_right(66)#########
+				sleep 2s
+			} else {
+				break
+			}
+		}
+		#mouse click "OK".from_bottom(0)
+		#mouse click "Сохранить"
+		click_and_wait_wanish("Сохранить", "Создание/удаление групп", "5", "from_bottom", "0", "1")
+		#Проверяем запись в журнале аудита 
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f \"ics_add_group_2\"")
+	}
+}
+
+
+
+test RemoveGroup: AddGroup{
+	win_10 {
+		clear_IA()
+
+		#Удаление группы через меню Действия
+		mouse click 1 1
+		mouse click "Настройка прав доступа"
+		mouse click "Группы".from_left(0)
+		mouse click "Действия"
+		mouse click "Удалить"
+		wait "Создание/удаление групп"
+		mouse click "Users".from_bottom(0)
+		sleep 2s
+		mouse click "Удалить"
+		sleep 2s
+		#Положитеьный результат удаления группы Users
+		mouse click "Сохранить"
+		#Проверяем запись в журнале аудита
+		run_cmd()
+		sleep 2s
+		RU_TO_ENG()
+		type "  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f \"ics_remove_group_1\""
+		press Enter
+		wait "Find"
+		press LEFTALT + F4
+		sleep 2s
+
+
+		#Проверка удаления группы через правую кнопку мыши
+		mouse rclick "Группы".from_left(0)
+		wait "Добавление/удаление групп"
+		mouse click "Добавление/удаление групп"
+		wait "Создание/удаление групп"
+		mouse click "Пользователи".from_bottom(0)
+		mouse click "Удалить".from_bottom(0)
+		#Положительный результат удаления группы Пользователи
+		mouse click "Сохранить"
+		#Проверяем запись в журнале аудита 
+		run_cmd()
+		sleep 2s
+		RU_TO_ENG()
+		type "  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f \"ics_remove_group_2\""
+		press Enter
+		wait "Find"
+		press LEFTALT + F4
+		sleep 2s
+	}
+}
+
+
+
+
+
+
+#Тест на добавление пользователя в папку Пользователи и группу Администраторы
+test AddUser: AddGroup{
+	win_10 {
+		clear_IA()
+		mouse click 1 1
+		mouse click "Настройка прав доступа"
+		sleep 2s
+		#Добавляем пользователя через всплывающее меню
+		mouse rclick "Пользователи".from_bottom(0)
+		wait "Добавление/удаление пользователей"
+		click_and_wait("Добавление/удаление пользователей", "Импорт/удаление учетных записей", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("Импортировать", "В следующем месте", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("Дополнительно","Общие запросы", "10", "from_bottom", "0", "1", "1")
+		click_and_wait("Поиск","DefaultAccount", "10", "from_right", "0", "1", "1")
+		mouse click "Admin"
+		sleep 2s
+		click_and_wait_wanish("OK", "Выберите тип объекта", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("OK", "В следующем месте", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("Сохранить", "Импорт/удаление учетных записей", "5", "from_bottom", "0", "1")
+		#Проверяем наличие записи о добавлении пользователя 1027
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1027")
+		clear_IA()
+		#Проверяем что пока нет админа, сохранение конфигурации невозможно
+		click_and_wait("Файл","Сохранить изменения", "5", "from_bottom", "0", "1", "0")
+		click_and_wait("Сохранить изменения","В сохранении конфигурации отказано", "5", "from_bottom", "0", "1", "0")
+		click_and_wait_wanish("OK", "В сохранении конфигурации отказано", "2", "from_bottom", "0", "1")
+		#Добавляем пользователя в группу Администраторы
+		click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "0")
+		click_and_wait("Добавить","Пользователи и группы", "10", "from_right", "0", "1", "1")
+		mouse click "Администраторы"
+		click_and_wait_wanish("Добавить", "Пользователи и группы", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("Сохранить", "Свойства пользователя", "5", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1089")
+		mouse click 1 1
+		click_and_wait("Файл","Сохранить изменения", "5", "from_bottom", "0", "1", "0")
+		click_and_wait_wanish("Сохранить изменения", "Импорт файла", "5", "from_bottom", "0", "1")
+		wait "Приложение завершает работу"
+		click_and_wait_wanish("OK", "Приложение завершает работу", "3", "from_bottom", "0", "1")
+		#Входим пользователем Admin, любая из 10 попыток с правильным паролем
+		for (i IN RANGE 0 10) {
+	    	if (NOT check "Admin") {
+				mouse click "Клиентская безопасность"
+				mouse click "Время".move_down(50).move_right(155)
+				wait "Аутентификация"
+				mouse click "Пользователь".from_bottom(0).move_right(50)
+				sleep 1s
+				mouse click "Admin".from_bottom(0)
+				mouse click "Пароль".move_right(100)
+				sleep 3s
+				type "Qwerty@123"
+				press Enter
+				sleep 2s
+			} else {
+				break
+			}
+			if (check "Неправильное имя пользователя или пароль") {
+				click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
+			}
+		}
+		#Т.к. дальше идет массовый поиск строк в журнале аудита, то запускаем терминал один раз и используем его многократно
+		run_cmd()
+		sleep 2s
+		RU_TO_ENG()
+		type "  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1089"
+		press Enter
+		wait "Find"
+		type "cls"
+		press Enter
+		sleep 1s
+		type "  python c:\\exchange\\EventLogWorker.py -u find_pack_event -f add_user_pack"
+		press Enter
+		wait "Find"
+		press LEFTALT + F4
+		#Заново открываем конфигуратор ИКС
+		mouse click "Клиентская безопасность"
+		mouse click "Время".move_down(50)
+		sleep 5s
+		#Добавляем пользователя через главное меню
+		mouse click "Пользователи".from_bottom(0)
+		sleep 1s
+		click_and_wait("Действия","Добавить", "5", "from_bottom", "0", "1", "0")
+		click_and_wait("Добавить", "Импорт/удаление учетных записей", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("Импортировать", "В следующем месте", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("Дополнительно","Общие запросы", "10", "from_bottom", "0", "1", "1")
+		click_and_wait("Поиск","DefaultAccount", "10", "from_right", "0", "1", "1")
+		mouse click "User_1"
+		sleep 2s
+		click_and_wait_wanish("OK", "Выберите тип объекта", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("OK", "В следующем месте", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("Сохранить", "Импорт/удаление учетных записей", "5", "from_bottom", "0", "1")
+		#Проверяем наличие записи о добавлении пользователя 1027
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1027_1")
+		click_and_wait("Группы","Users", "10", "from_bottom", "0", "1", "1")
+		click_and_wait("Users","Свойства группы", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Добавить","Пользователи и группы", "5", "from_right", "0", "1", "1")
+		mouse click "User_1"
+		click_and_wait_wanish("Добавить", "Пользователи и группы", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("Сохранить", "Свойства группы", "5", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1018")
+		clear_IA()
+	}
+}
+#Тест на импорт конфигурации и загрузку файла по умолчанию
+test DefaultImportISAM: AddUser{
+	win_10 {
+		mouse click "Настройка прав доступа"
+		sleep 2s
+		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
+		mouse click "Выход"
+		sleep 5s
+		click_and_wait_wanish("Да", "Внимание! Перечисленным ниже пользователям", "5", "from_bottom", "0", "1")
+		click_and_wait_wanish("Да", "Сохранить изменения?", "5", "from_bottom", "0", "1")
+		#click_and_wait_wanish("Выход", "Настройка прав доступа", "5", "from_bottom", "0", "1")
+		#Проверка сообщения о закрытии конфигуратора ИКС
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1024")
+		click_and_wait("Управл", "Управление Infinity", "30", "from_bottom", "0", "2", "1")
+		wait "Локально" timeout 3m
+		mouse click "Клиентская безопасность"
+		mouse click "Время".move_down(50)
+		wait "Настройка прав доступа" timeout 3m
+		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
+		click_and_wait_wanish("Загрузить файл по умолчанию", "Выход", "5", "from_bottom", "0", "1")
+		wait "Сейчас будет произведена загрузка базы данных по"
+		click_and_wait_wanish("Да", "Сейчас будет произведена загрузка базы данных по", "5", "from_bottom", "0", "1")
+		wait "Загрузка базы данных по умолчанию успешно завершена"
+		click_and_wait_wanish("ОК", "Загрузка базы данных по умолчанию успешно завершена", "5", "from_bottom", "0", "1")
+		#Проверка сообщения об успешной загрузке базы по умолчанию
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1134")
+		#Импортируем существующий файл
+		mouse click 1 1
+		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
+		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
+		click_and_wait("Локальный ди", "exchange", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("exchange", "users_without_ics_rights.isam", "5", "from_bottom", "0", "2", "1")
+		mouse click "users_without_ics_rights.isam"
+		click_and_wait_wanish("Открыть", "Открытие", "5", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1131")
+		#Импортируем несуществующий файл
+		mouse click 1 1
+		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
+		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
+		click_and_wait("Локальный ди", "exchange", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("exchange", "users_without_ics_rights.isam", "5", "from_bottom", "0", "2", "1")
+		mouse click "Имя файла:".move_right(50)
+		type " users_without_ics_rights1.isam"
+		click_and_wait_wanish("Открыть", "Открытие", "5", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1132")	
+		#Удаляем файл original.isam
+		run_power_shell_admin()
+		RU_TO_ENG()
+		type "Remove-Item \"c:\\Program Files (x86)\\EleSy\\SCADA Infinity\\InfinityClientSecurity\\original.isam\""
+		press Enter
+		type "exit"
+		press Enter
+		sleep 2s
+		#Проверяем невозможность восстановить файл по умолчанию (когда его нет на диске)
+		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
+		click_and_wait_wanish("Загрузить файл по умолчанию", "Выход", "5", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1133")
+
+	}
+}
+
+#Тест на успешный автологин после перезагрузки
+test RebootSuccess: AddUser{
+	win_10 {
+		clear_IA()
+		shutdown timeout 10m
+		start
+		win_wait("Admin", "Qwerty@123")
+		click_and_wait("Управл", "Управление Infinity", "30", "from_bottom", "0", "2", "1")
+		wait "Локально" timeout 3m
+		#find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1025")######vernut
+		for (i IN RANGE 0 10) {
+	    	if (NOT check "Внимание! Будет выполнен переход в гостевой режим во") {
+	    		mouse click "Локально".move_down(150)
+	    		sleep 3s
+	    	} else {
+	    		break
+	    	}
+	    }
+	    click_and_wait_wanish("Да", "Внимание! Будет выполнен переход в гостевой режим во", "5", "from_bottom", "0", "1")
+		for (i IN RANGE 0 10) {
+	    	if (NOT check "Admin") {
+				mouse click "Клиентская безопасность"
+				mouse click "Время".move_down(50).move_right(155)
+				wait "Аутентификация"
+				mouse click "Пользователь".from_bottom(0).move_right(50)
+				sleep 1s
+				mouse click "Admin".from_bottom(0)
+				mouse click "Пароль".move_right(100)
+				sleep 3s
+				if (check "Рус") {
+					mouse click "Рус"
+				}
+				type "Qwerty@123"
+				press Enter
+				sleep 2s
+			} else {
+				break
+			}
+			if (check "Неправильное имя пользователя или пароль") {
+				click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
+			}
+		}
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1042")
+
+	}
+}
+
+#Тест на создание, редактирование и удаление временного периода
+test AddEditRemTimePeriod: AddUser{
+	win_10 {
+		mouse click "Настройка прав доступа"
+		sleep 2s
+		mouse click "Временные периоды"
+		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
+		click_and_wait("Добавить","Круглосуточно", "5", "from_right", "0", "1", "0")
+		mouse click "Наименование".move_down(10)
+		type "Period_1"
+		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1030")
+		click_and_wait("Period_1","Круглосуточно", "5", "from_right", "0", "2", "0")
+		mouse click "Круглосуточно"
+		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1032")
+		mouse click "Period_1"
+		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
+		click_and_wait("Удалить","Внимание! Временной период \"Period_1\" будет удален", "5", "from_right", "0", "1", "0")
+		click_and_wait_wanish("Да", "равно продолжить", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1031")
+		}
+	}

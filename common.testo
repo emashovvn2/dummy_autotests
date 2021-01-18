@@ -1,0 +1,319 @@
+#test guest_additions_installation {
+#    win_10 {
+#    	start
+#    	#wait "test-admin" timeout 5m
+#    	sleep 6m
+#    	mouse move 500 500
+#    	mouse click
+#    	mouse move 300 500
+#    	mouse click
+#    	#wait "Пароль"
+#    	sleep 2s
+#    	mouse click "ароль"
+#    	mouse click "РУС"
+#    	mouse click "ENG"
+#    	type "Qwerty@123"
+#    	press Enter
+#    	unplug dvd
+#    	plug dvd "/home/vyacheslav/Загрузки/testo-guest-additions-2.1.0.iso"
+#        mouse dclick "Корзина"
+#        wait "Этот компьютер"; mouse click "Этот компьютер"
+#        wait "CD-дисковод"; mouse dclick "CD-дисковод"
+        
+        #wait "testo-guest-additions-x64"; mouse dclick "testo-guest-additions-x64"
+#        wait "Next"; press Enter
+#        wait "Everyone"; press Enter
+#        wait "Confirm Installation"; press Enter
+#        wait "Контроль учетных записей пользователей"; mouse click "Да".from_bottom(1)
+#        wait "VirtIO Serial Driver"; mouse click "Установить".from_bottom(1)
+#        wait "Installation Complete"; mouse click "Close".from_bottom(0)
+#        sleep 2s
+#        unplug dvd
+#    }
+#}
+
+macro login (USER, PASSWORD) {
+	wait "Имя пользователя"; mouse click "Имя пользователя"
+    type "${USER}"
+    sleep 3s
+    mouse click "Пароль"
+    sleep 3s
+    type "${PASSWORD}"
+    press Enter
+}
+
+
+
+macro ENG_TO_RU() {
+	for (i IN RANGE 0 50) {
+		if (check ("РУС")) {
+			break
+		} else {
+			press LEFTSHIFT + LEFTCTRL
+			sleep 5s
+		}
+
+	}
+}
+
+macro RU_TO_ENG() {
+	for (i IN RANGE 0 50) {
+		if (check ("ENG")) {
+			break
+		} else {
+			press LEFTSHIFT + LEFTCTRL
+			sleep 5s
+		}
+
+	}
+}
+
+
+macro ENG_TO_RU_ALT() {
+	for (i IN RANGE 0 50) {
+		if (check ("РУС")) {
+			break
+		} else {
+			press LEFTSHIFT + LEFTALT
+			sleep 5s
+		}
+
+	}
+}
+
+macro RU_TO_ENG_ALT() {
+	for (i IN RANGE 0 50) {
+		if (check ("ENG")) {
+			break
+		} else {
+			press LEFTSHIFT + LEFTALT
+			sleep 5s
+		}
+
+	}
+}
+
+
+macro run_from_start(app) {
+	for (i IN RANGE 0 50) {
+	    if (check "${app}") {
+	    	#sleep 15s
+	    	#for (j IN RANGE 1 "${clicks}") {
+	    	#	press Up
+	    	#}
+	    	#press Enter
+	    	sleep 2s
+	    	mouse click "${app}"
+	    	break
+	    } else {
+	    	#mouse rclick 30 870
+	    	mouse rclick 30 750
+	    	sleep 5s
+	    }
+    }
+}
+
+macro win_wait(USER, PASSWORD) {
+	sleep 20s
+	for (i IN RANGE 0 500) {
+	    if (check "ароль") {
+	    	break
+	    } else {
+	    	mouse click 30 80
+	    	sleep 10s
+	    }
+    }
+    sleep 2s
+    #RU_TO_ENG_ALT()
+    mouse click "${USER}".from_left(0)
+    sleep 2s
+    mouse click "ароль"
+    sleep 2s
+    RU_TO_ENG_ALT()
+    type "${PASSWORD}"
+    press Enter
+    sleep 30s
+    for (i IN RANGE 0 50) {
+	    	if (check "Напомнить позже") {
+		    		mouse click "Напомнить позже"
+		    		break
+		    	}
+		    if (check "SCADA") {
+		    		break
+		    	}
+		    sleep 5s
+	    }
+}
+
+macro clear_IA(){
+	run_cmd()
+	RU_TO_ENG()
+	type "  python c:\\exchange\\EventLogWorker.py -u clear_log -l InfinityAudit"
+	press Enter
+	press LEFTALT + F4
+}
+
+#Кликаем мышкой по одному элементу, пока не появится другой элемент
+#clicking - по чему Кликаем
+#waiting - появления какого текста ждем
+#time - время ожидания текста (таймаут через который проверяется его наличие)
+#modification - модификатор места куда кликаем (сверху, снизу, слева, справа)
+#count_modification - счетчик для модификатора НЕ РЕАЛИЗОВАН
+
+macro click_and_wait(clicking, waiting, time, modification, count_modification, n_clicks, to_corner){
+
+for (i IN RANGE 0 50) {
+	    if (check "${waiting}") {
+	    	break
+	    } else {
+	    	if (("${modification}" STREQUAL "from_top") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_top(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_top") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_top(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_bottom") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_bottom(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_bottom") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_bottom(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_left") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_left(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_left") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_left(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_right") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_right(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_right") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_right(0)
+	    }
+            if ("${to_corner}" STREQUAL "1") {
+            	mouse click 1 1;}
+	    	sleep "${time}s"
+	    }
+    }
+    }
+
+#Кликаем мышкой по одному элементу, пока не исчезнет другой элемент
+#clicking - по чему Кликаем
+#waiting - исчезновения какого текста ждем
+#time - время ожидания текста (таймаут через который проверяется его наличие)
+#modification - модификатор места куда кликаем (сверху, снизу, слева, справа)
+#count_modification - счетчик для модификатора  НЕ РЕАЛИЗОВАН
+
+macro click_and_wait_wanish(clicking, waiting, time, modification, count_modification, n_clicks){
+for (i IN RANGE 0 50) {
+	    if (NOT check "${waiting}") {
+	    	break
+	    } else {
+	    	if (("${modification}" STREQUAL "from_top") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_top(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_top") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_top(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_bottom") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_bottom(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_bottom") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_bottom(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_left") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_left(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_left") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_left(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_right") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${clicking}".from_right(0)
+	    }
+	    	if (("${modification}" STREQUAL "from_right") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${clicking}".from_right(0)
+	    }
+	        mouse click 1 1
+	    	sleep "${time}s"
+	    }
+    }
+    }
+
+
+macro click_and_wait_wanish_2(clicking, waiting, time, modification, count_modification, n_clicks){
+for (i IN RANGE 0 50) {
+	    if (NOT check "${waiting}") {
+	    	break
+	    } else {
+	    	if (("${modification}" STREQUAL "from_top") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_top") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_bottom") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_bottom") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_left") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_left") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_right") AND ("${n_clicks}" STREQUAL "1")){
+	    	mouse click "${waiting}".right_center().move_down(69)
+	    }
+	    	if (("${modification}" STREQUAL "from_right") AND ("${n_clicks}" STREQUAL "2")){
+	    	mouse dclick "${waiting}".right_center().move_down(69)
+	    }
+	    	sleep "${time}s"
+	    }
+    }
+    }
+
+#Запуск терминала (командной строки) с ярлыка расположенного на рабочем столе
+#в параметрах ярлыка настроенарабочая папка
+macro run_cmd(){
+	click_and_wait("cmd - Ярлык", "Microsoft Windows [", "5", "from_bottom", "0", "2", "0")
+	mouse click "Microsoft Windows ["
+	sleep 1s
+}
+
+
+macro run_power_shell_admin(){
+	run_from_start("Windows PowerShell (администратор)")
+	sleep 10s
+	#wait "Администратор: Windows PowerShell"
+	#click_and_wait("Windows PowerShell (администратор)", "Администратор: Windows PowerShell", "10", "from_bottom", "0", "2", "0")
+	mouse click "Администратор: Windows PowerShell"
+	sleep 1s
+}
+
+#Запуск командной строки
+#Запуск скрипта с параметрами как переданы в переменной str и поиск после его выполнения слова Find
+#Нажатие альт+Ф4 по окончании этого всего (закрытие окна терминала)
+macro find_event(str){
+	run_cmd()
+	sleep 2s
+	RU_TO_ENG()
+	type "${str}"
+	press Enter
+	wait "Find"
+	press LEFTALT + F4
+	sleep 2s
+}
+
+#Запуск скрипта с параметрами как переданы в переменной str и поиск после его выполнения слова Find
+#Очистка окна терминала по окончании этого всего (НЕ закрытие окна терминала)
+macro find_event_with_clear_terminal(str){
+	RU_TO_ENG()
+	type "${str}"
+	press Enter
+	wait "Find"
+	type "cls"
+	press Enter
+	sleep 2s
+}

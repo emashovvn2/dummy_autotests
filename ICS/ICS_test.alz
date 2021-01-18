@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<heimer-mind-map version="2.2.0">
+ <color r="186" b="182" g="189"/>
+ <edge-color r="0" b="0" g="0"/>
+ <grid-color r="160" b="164" g="160"/>
+ <edge-width>2000</edge-width>
+ <text-size>11000</text-size>
+ <corner-radius>5000</corner-radius>
+ <graph>
+  <node index="10" h="118000" x="46149" y="146786" w="204000">
+   <text>AddEditRemTimePeriod
+Добавить, редакти
+ровать и удалить
+временной период
+1030, 1031, 1032</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="1" h="118000" x="-579605" y="-168694" w="200000">
+   <text>CheckMenuItems
+Проверка наличия 
+пунктов меню
+1001, 1003, 1004, 
+1007, 1150</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="2" h="82000" x="-309384" y="-163799" w="200000">
+   <text>AddGroup
+Добавить группу
+1023, 1033</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="0" h="75000" x="73429" y="-320153" w="274000">
+   <text>InfinityClientSecurity_installation
+Установка</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="7" h="82000" x="377690" y="96380" w="216000">
+   <text>Reboot_fail
+Неуспешный автологин
+после ребута</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="5" h="100000" x="-460046" y="139249" w="232000">
+   <text>DefaultImportISAM
+Сброс файла разрешений
+1024, 1131, 1132, 1133
+1134</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="6" h="118000" x="-189907" y="147753" w="209000">
+   <text>Reboot_success
+Успешный автологин 
+после ребута, переход
+в гостя
+1025, 1042, 1052</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="4" h="100000" x="-300297" y="-11666" w="217000">
+   <text>AddUser
+Добавить пользователя
+1027, 1089, 1005, 1013
+1004, 1018</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="3" h="82000" x="-541422" y="-9669" w="200000">
+   <text>RemoveGroup
+Удалить группу
+1034</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <edge index1="3" index0="2" arrow-mode="0" reversed="0"/>
+  <edge index1="4" index0="2" arrow-mode="0" reversed="0"/>
+  <edge index1="2" index0="0" arrow-mode="0" reversed="0"/>
+  <edge index1="1" index0="0" arrow-mode="0" reversed="0"/>
+  <edge index1="10" index0="4" arrow-mode="0" reversed="0"/>
+  <edge index1="7" index0="4" arrow-mode="0" reversed="0"/>
+  <edge index1="6" index0="4" arrow-mode="0" reversed="0"/>
+  <edge index1="5" index0="4" arrow-mode="0" reversed="0"/>
+ </graph>
+ <layout-optimizer min-edge-length="100000" aspect-ratio="1000"/>
+</heimer-mind-map>
