@@ -195,6 +195,8 @@ for (i IN RANGE 0 50) {
 	    	sleep "${time}s"
 	    }
     }
+    if ("${to_corner}" STREQUAL "1") {
+        mouse click 1 1;}
     }
 
 #Кликаем мышкой по одному элементу, пока не исчезнет другой элемент
@@ -237,6 +239,7 @@ for (i IN RANGE 0 50) {
 	    	sleep "${time}s"
 	    }
     }
+    mouse click 1 1
     }
 
 

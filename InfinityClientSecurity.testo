@@ -359,6 +359,7 @@ test AddUser: AddGroup{
 #Тест на импорт конфигурации и загрузку файла по умолчанию
 test DefaultImportISAM: AddUser{
 	win_10 {
+		mouse click 1 1
 		mouse click "Настройка прав доступа"
 		sleep 2s
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
@@ -420,22 +421,24 @@ test DefaultImportISAM: AddUser{
 #Тест на успешный автологин после перезагрузки
 test RebootSuccess: AddUser{
 	win_10 {
+		mouse click 1 1
 		clear_IA()
 		shutdown timeout 10m
 		start
 		win_wait("Admin", "Qwerty@123")
 		click_and_wait("Управл", "Управление Infinity", "30", "from_bottom", "0", "2", "1")
 		wait "Локально" timeout 3m
-		#find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1025")######vernut
+		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1025")
 		for (i IN RANGE 0 10) {
-	    	if (NOT check "Внимание! Будет выполнен переход в гостевой режим во") {
+	    	if (NOT check "Будет выполнен переход в гостевой режим") {
 	    		mouse click "Локально".move_down(150)
 	    		sleep 3s
 	    	} else {
 	    		break
 	    	}
 	    }
-	    click_and_wait_wanish("Да", "Внимание! Будет выполнен переход в гостевой режим во", "5", "from_bottom", "0", "1")
+	    sleep 10s
+	    click_and_wait_wanish("Да", "Будет выполнен переход в гостевой режим", "5", "from_bottom", "0", "1")
 		for (i IN RANGE 0 10) {
 	    	if (NOT check "Admin") {
 				mouse click "Клиентская безопасность"
@@ -467,20 +470,22 @@ test RebootSuccess: AddUser{
 #Тест на создание, редактирование и удаление временного периода
 test AddEditRemTimePeriod: AddUser{
 	win_10 {
+		mouse click 1 1
 		mouse click "Настройка прав доступа"
 		sleep 2s
 		mouse click "Временные периоды"
 		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
 		click_and_wait("Добавить","Круглосуточно", "5", "from_right", "0", "1", "0")
+		sleep 2s
 		mouse click "Наименование".move_down(10)
-		type "Period_1"
+		type " Period_1"
 		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1030")
 		click_and_wait("Period_1","Круглосуточно", "5", "from_right", "0", "2", "0")
 		mouse click "Круглосуточно"
 		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1032")
-		mouse click "Period_1"
+		mouse click "Period_1".from_bottom(0)
 		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
 		click_and_wait("Удалить","Внимание! Временной период \"Period_1\" будет удален", "5", "from_right", "0", "1", "0")
 		click_and_wait_wanish("Да", "равно продолжить", "3", "from_bottom", "0", "1")
