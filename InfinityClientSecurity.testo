@@ -388,7 +388,8 @@ test DefaultImportISAM: AddUser{
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
 		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
 		click_and_wait("Локальный ди", "exchange", "5", "from_bottom", "0", "1", "1")
-		click_and_wait("exchange", "users_without_ics_rights.isam", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("exchange", "ICS", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("ICS", "users_without_ics_rights.isam", "5", "from_bottom", "0", "2", "1")
 		mouse click "users_without_ics_rights.isam"
 		click_and_wait_wanish("Открыть", "Открытие", "5", "from_bottom", "0", "1")
 		find_event("  python c:\\exchange\\EventLogWorker.py -u find_event_by_ID -f ics_1131")
@@ -397,7 +398,7 @@ test DefaultImportISAM: AddUser{
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
 		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
 		click_and_wait("Локальный ди", "exchange", "5", "from_bottom", "0", "1", "1")
-		click_and_wait("exchange", "users_without_ics_rights.isam", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("exchange", "ICS", "5", "from_bottom", "0", "2", "1")
 		mouse click "Имя файла:".move_right(50)
 		type " users_without_ics_rights1.isam"
 		click_and_wait_wanish("Открыть", "Открытие", "5", "from_bottom", "0", "1")
