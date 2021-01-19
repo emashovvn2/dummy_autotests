@@ -288,9 +288,16 @@ macro run_cmd(){
 
 macro run_power_shell_admin(){
 	run_from_start("Windows PowerShell (администратор)")
-	sleep 10s
+	sleep 80s
 	#wait "Администратор: Windows PowerShell"
 	#click_and_wait("Windows PowerShell (администратор)", "Администратор: Windows PowerShell", "10", "from_bottom", "0", "2", "0")
+	
+	
+	if (check "Разрешить этому приложению") {
+		mouse click "Да".from_bottom(0)
+	}
+	mouse click 1 1
+	sleep 10s
 	mouse click "Администратор: Windows PowerShell"
 	sleep 1s
 }
@@ -322,7 +329,7 @@ macro find_event_with_clear_terminal(str){
 }
 
 #Клонирование с ГИТХАБ свежей версии файлов
-macro pull_from_git{
+macro pull_from_git(){
 	#
 	run_power_shell_admin()
 	RU_TO_ENG()
@@ -334,10 +341,10 @@ macro pull_from_git{
 	sleep 2s
 	#
 	click_and_wait("Git Bash","MINGW64", "5", "from_right", "0", "2", "0")
-	RU_TO_ENG
+	RU_TO_ENG()
 	type " cd c:"
 	press Enter
-	wait "MINGW64 c/" timeout 2m
+	wait "MINGW64 /c" timeout 2m
 	type "git clone https://github.com/emashovvn2/dummy_autotests.git"
 	press Enter
 	#wait "Personal Access Token"
