@@ -320,3 +320,37 @@ macro find_event_with_clear_terminal(str){
 	press Enter
 	sleep 2s
 }
+
+#Клонирование с ГИТХАБ свежей версии файлов
+macro pull_from_git{
+	#
+	run_power_shell_admin()
+	RU_TO_ENG()
+	type "Remove-Item -Recurse -Force \"C:\\dummy_autotests\""
+	press Enter
+	sleep 2s
+	type "exit"
+	press Enter
+	sleep 2s
+	#
+	click_and_wait("Git Bash","MINGW64", "5", "from_right", "0", "2", "0")
+	RU_TO_ENG
+	type " cd c:"
+	press Enter
+	wait "MINGW64 c/" timeout 2m
+	type "git clone https://github.com/emashovvn2/dummy_autotests.git"
+	press Enter
+	#wait "Personal Access Token"
+	#mouse click "Personal Access Token"
+	#type "Qweasdzxc123\\"
+	#mouse click "Sign in".from_bottom(0)
+	#wait "Show input"
+	#type "emashovvn2"
+	#press Enter
+	#sleep 3s
+	#type "Qweasdzxc123\\"
+	#press Enter
+	wait "Resolving deltas: 100%"
+	type "exit"
+	press Enter
+}

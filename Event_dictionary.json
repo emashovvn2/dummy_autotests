@@ -1134,14 +1134,14 @@
             "i": "1131",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - Импорт файла \"C:\\exchange\\ICS\\users_without_ics_rights.isam\" завершен"
+            "f": "WIN10_AUTOTEST\\Admin - Импорт файла \"C:\\dummy_autotests\\ICS\\users_without_ics_rights.isam\" завершен"
         },
     "ics_1132":
         {
             "i": "1132",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - Не удалось импортировать файл \"C:\\exchange\\users_without_ics_rights1.isam\". Файл не найден."
+            "f": "WIN10_AUTOTEST\\Admin - Не удалось импортировать файл \"C:\\dummy_autotests\\users_without_ics_rights1.isam\". Файл не найден."
         },
     "ics_1133":
         {
@@ -1389,6 +1389,10 @@
     "add_user_pack":
         {
             "f": "ics_1005 ics_1005_1 ics_1005_2 ics_1005_3 ics_1005_4 ics_1005_5 ics_1005_6 ics_1005_7 ics_1005_8 ics_1005_9 ics_1005_10 ics_1005_11 ics_1005_12 ics_1005_13 ics_1005_14 ics_1005_15 ics_1013 ics_1004 ics_1004_1 ics_1004_2 ics_1004_3 ics_1004_4 ics_1004_5 ics_1004_6 ics_1004_7 ics_1004_8 ics_1004_9 ics_1004_10 ics_1004_11 ics_1004_12 ics_1004_13 ics_1004_14 ics_1004_15 ics_1160"
+        },
+    "Check_Menu_Items_pack":
+        {
+            "f": "ics_1001 ics_1003 ics_1004_16 ics_1007 ics_1150"
         }
 }
 
