@@ -517,8 +517,8 @@ test AddPerToUserAndGroup: AddEditTimePeriod {
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1078")
-		click_and_wait("Пользователи","User_1", "3", "from_bottom", "0", "1", "1")
-		click_and_wait("User_1","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Пользователи","Admin", "3", "from_bottom", "0", "1", "1")
+		click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
@@ -537,8 +537,8 @@ test RemPerToUserAndGroup: AddPerToUserAndGroup {
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1079")
-		click_and_wait("Пользователи","User_1", "3", "from_bottom", "0", "1", "1")
-		click_and_wait("User_1","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Пользователи","Admin", "3", "from_bottom", "0", "1", "1")
+		click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")

@@ -866,14 +866,14 @@
             "i": "1093",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - ƒобавлен временной период: Period_1, дл€ пользовател€: User_1"
+            "f": "WIN10_AUTOTEST\\Admin - ƒобавлен временной период: Period_1, дл€ пользовател€: Admin"
         },
     "ics_1094":
         {
             "i": "1094",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - ”дален временной период: Period_1, дл€ пользовател€: User_1"
+            "f": "WIN10_AUTOTEST\\Admin - ”дален временной период: Period_1, дл€ пользовател€: Admin"
         },
     "ics_1095":
         {
