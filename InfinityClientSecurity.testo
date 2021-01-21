@@ -472,7 +472,7 @@ test RebootSuccess: AddUser{
 }
 
 #Тест на создание, редактирование и удаление временного периода
-test AddEditRemTimePeriod: AddUser{
+test AddEditTimePeriod: AddUser{
 	win_10 {
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
@@ -489,11 +489,59 @@ test AddEditRemTimePeriod: AddUser{
 		mouse click "Круглосуточно"
 		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1032")
+		sleep 3s
+
+		}
+	}
+
+
+test RemoveTimePeriod: AddEditTimePeriod {
+	win_10 {
 		mouse click "Period_1".from_bottom(0)
 		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
 		click_and_wait("Удалить","Внимание! Временной период \"Period_1\" будет удален", "5", "from_right", "0", "1", "0")
 		click_and_wait_wanish("Да", "равно продолжить", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1031")
-		}
 	}
+}
 
+test AddPerToUserAndGroup: AddEditTimePeriod {
+	win_10 {
+		pull_from_git()
+		mouse click 1 1
+		mouse click "Настройка прав доступа"
+		sleep 2s
+		click_and_wait("Группы","Users", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("Users","Свойства группы", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
+		mouse dclick "Period_1"
+		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1078")
+		click_and_wait("Пользователи","User_1", "3", "from_bottom", "0", "1", "1")
+		click_and_wait("User_1","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
+		mouse dclick "Period_1"
+		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1093")
+	}
+}
+
+test RemPerToUserAndGroup: AddPerToUserAndGroup {
+	win_10 {
+		mouse click 1 1
+		mouse click "Настройка прав доступа"
+		sleep 2s
+		click_and_wait("Группы","Users", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("Users","Свойства группы", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
+		mouse dclick "Period_1"
+		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1079")
+		click_and_wait("Пользователи","User_1", "3", "from_bottom", "0", "1", "1")
+		click_and_wait("User_1","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
+		mouse dclick "Period_1"
+		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1094")
+	}
+}

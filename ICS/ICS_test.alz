@@ -7,13 +7,65 @@
  <text-size>11000</text-size>
  <corner-radius>5000</corner-radius>
  <graph>
-  <node index="10" h="118000" x="46149" y="146786" w="204000">
-   <text>AddEditRemTimePeriod
-Добавить, редакти
-ровать и удалить
-временной период
-1030, 1031, 1032</text>
+  <node index="16" h="118000" x="-53335" y="588836" w="205000">
+   <text>DelPerToUserAndGroup
+Удалить период
+пользователю и
+группе
+1079, 1094</text>
    <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="15" h="75000" x="236759" y="418421" w="200000">
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="14" h="118000" x="-60549" y="443138" w="209000">
+   <text>AddPerToUserAndGroup
+Добавить период
+пользователю и
+группе
+1078, 1093</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="12" h="100000" x="-313156" y="434031" w="200000">
+   <text>RemoveTimePeriod
+Удалить временной
+период
+1031</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="11" h="82000" x="327862" y="12196" w="206000">
+   <text>
+Неправильный пароль
+</text>
+   <color r="255" b="255" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="3" h="82000" x="-541422" y="-9669" w="200000">
+   <text>RemoveGroup
+Удалить группу
+1034</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="4" h="100000" x="-300297" y="-11666" w="217000">
+   <text>AddUser
+Добавить пользователя
+1027, 1089, 1005, 1013
+1004, 1018</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="6" h="118000" x="-297879" y="294751" w="209000">
+   <text>Reboot_success
+Успешный автологин 
+после ребута, переход
+в гостя
+1025, 1042, 1052</text>
+   <color r="0" b="0" g="255"/>
    <text-color r="0" b="0" g="0"/>
   </node>
   <node index="1" h="118000" x="-579605" y="-168694" w="200000">
@@ -22,6 +74,15 @@
 пунктов меню
 1001, 1003, 1004, 
 1007, 1150</text>
+   <color r="0" b="0" g="255"/>
+   <text-color r="0" b="0" g="0"/>
+  </node>
+  <node index="10" h="118000" x="-61823" y="293784" w="200000">
+   <text>AddEditTimePeriod
+Добавить, редакти
+ровать и удалить
+временной период
+1030, 1032</text>
    <color r="0" b="0" g="255"/>
    <text-color r="0" b="0" g="0"/>
   </node>
@@ -38,14 +99,14 @@
    <color r="255" b="255" g="255"/>
    <text-color r="0" b="0" g="0"/>
   </node>
-  <node index="7" h="82000" x="377690" y="96380" w="216000">
+  <node index="7" h="82000" x="185308" y="272699" w="216000">
    <text>Reboot_fail
 Неуспешный автологин
 после ребута</text>
    <color r="255" b="255" g="255"/>
    <text-color r="0" b="0" g="0"/>
   </node>
-  <node index="5" h="100000" x="-460046" y="139249" w="232000">
+  <node index="5" h="100000" x="-568018" y="286247" w="232000">
    <text>DefaultImportISAM
 Сброс файла разрешений
 1024, 1131, 1132, 1133
@@ -53,38 +114,19 @@
    <color r="0" b="0" g="255"/>
    <text-color r="0" b="0" g="0"/>
   </node>
-  <node index="6" h="118000" x="-189907" y="147753" w="209000">
-   <text>Reboot_success
-Успешный автологин 
-после ребута, переход
-в гостя
-1025, 1042, 1052</text>
-   <color r="255" b="255" g="255"/>
-   <text-color r="0" b="0" g="0"/>
-  </node>
-  <node index="4" h="100000" x="-300297" y="-11666" w="217000">
-   <text>AddUser
-Добавить пользователя
-1027, 1089, 1005, 1013
-1004, 1018</text>
-   <color r="0" b="0" g="255"/>
-   <text-color r="0" b="0" g="0"/>
-  </node>
-  <node index="3" h="82000" x="-541422" y="-9669" w="200000">
-   <text>RemoveGroup
-Удалить группу
-1034</text>
-   <color r="0" b="0" g="255"/>
-   <text-color r="0" b="0" g="0"/>
-  </node>
-  <edge index1="3" index0="2" arrow-mode="0" reversed="0"/>
-  <edge index1="4" index0="2" arrow-mode="0" reversed="0"/>
-  <edge index1="2" index0="0" arrow-mode="0" reversed="0"/>
-  <edge index1="1" index0="0" arrow-mode="0" reversed="0"/>
+  <edge index1="16" index0="14" arrow-mode="0" reversed="0"/>
+  <edge index1="11" index0="4" arrow-mode="0" reversed="0"/>
+  <edge index1="5" index0="4" arrow-mode="0" reversed="0"/>
+  <edge index1="6" index0="4" arrow-mode="0" reversed="0"/>
   <edge index1="10" index0="4" arrow-mode="0" reversed="0"/>
   <edge index1="7" index0="4" arrow-mode="0" reversed="0"/>
-  <edge index1="6" index0="4" arrow-mode="0" reversed="0"/>
-  <edge index1="5" index0="4" arrow-mode="0" reversed="0"/>
+  <edge index1="15" index0="10" arrow-mode="0" reversed="0"/>
+  <edge index1="14" index0="10" arrow-mode="0" reversed="0"/>
+  <edge index1="12" index0="10" arrow-mode="0" reversed="0"/>
+  <edge index1="4" index0="2" arrow-mode="0" reversed="0"/>
+  <edge index1="3" index0="2" arrow-mode="0" reversed="0"/>
+  <edge index1="2" index0="0" arrow-mode="0" reversed="0"/>
+  <edge index1="1" index0="0" arrow-mode="0" reversed="0"/>
  </graph>
  <layout-optimizer min-edge-length="100000" aspect-ratio="1000"/>
 </heimer-mind-map>
