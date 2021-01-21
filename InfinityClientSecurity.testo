@@ -549,7 +549,7 @@ test RemPerToUserAndGroup: AddPerToUserAndGroup {
 	}
 }
 
-test RemPerToUserAndGroup: InfinityClientSecurity_installation {
+test AuditOnOff: InfinityClientSecurity_installation {
 	win_10 {
 		pull_from_git()
 		mouse click 1 1
