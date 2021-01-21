@@ -518,7 +518,9 @@ test AddPerToUserAndGroup: AddEditTimePeriod {
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1078")
 		click_and_wait("Пользователи","Admin", "3", "from_bottom", "0", "1", "1")
-		click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		#click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		mouse dclick "Admin".from_bottom(1)
+		sleep 5s
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
@@ -538,10 +540,90 @@ test RemPerToUserAndGroup: AddPerToUserAndGroup {
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1079")
 		click_and_wait("Пользователи","Admin", "3", "from_bottom", "0", "1", "1")
-		click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		#click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		mouse dclick "Admin".from_bottom(1)
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1094")
+	}
+}
+
+test RemPerToUserAndGroup: InfinityClientSecurity_installation {
+	win_10 {
+		pull_from_git()
+		mouse click 1 1
+		click_and_wait("Управл", "Управление Infinity", "20", "from_bottom", "0", "2", "1")
+		wait "Локально" timeout 3m
+		mouse click "Клиентская безопасность"
+		mouse click "Время".move_down(50)
+		sleep 10s
+		#Подтянули заранее созданную базу
+		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
+		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
+		click_and_wait("Локальный ди", "dummy_autotests", "5", "from_bottom", "0", "1", "1")
+		click_and_wait("dummy_autotests", "ICS", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("ICS", "user_2_without_time_interval.isam", "5", "from_bottom", "0", "2", "1")
+		mouse click "user_2_without_time_interval.isam"
+		click_and_wait_wanish("Открыть", "Открытие", "5", "from_bottom", "0", "1")
+		#Установка аудита для одной из функций на группу
+		click_and_wait("Группы", "Users", "5", "from_right", "0", "1", "1")
+		click_and_wait("Users", "Свойства группы", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
+		mouse click "InfinityAlarms: Администрирование".move_right(432)
+		click_and_wait_wanish("Сохранить", "Имя функции", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1164")
+		#Снятие аудита для одной из функций на группу
+		click_and_wait("Группы", "Users", "5", "from_right", "0", "1", "1")
+		click_and_wait("Users", "Свойства группы", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
+		mouse click "InfinityAlarms: Администрирование".move_right(432)
+		click_and_wait_wanish("Сохранить", "Имя функции", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1163")
+		#Установка аудита для одной из функций на пользователя
+		click_and_wait("Пользователи", "User_2", "5", "from_right", "0", "1", "1")
+		click_and_wait("User_2", "Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
+		mouse click "InfinityAlarms: Запуск приложения".move_right(432)
+		click_and_wait_wanish("Сохранить", "Имя функции", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1166")
+		#Установка аудита для одной из функций на пользователя
+		click_and_wait("Пользователи", "User_2", "5", "from_right", "0", "1", "1")
+		click_and_wait("User_2", "Свойства пользователя", "5", "from_bottom", "0", "2", "1")
+		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
+		mouse click "InfinityAlarms: Запуск приложения".move_right(432)
+		click_and_wait_wanish("Сохранить", "Имя функции", "3", "from_bottom", "0", "1")
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1165")
+		#Проверка на пользователя не имеющего временного интервала
+		press LEFTALT + F4
+		wait "Внимание! Перечисленным ниже пользователям:"
+		wait "User_2"
+		click_and_wait_wanish("Да", "Внимание! Перечисленным ниже пользователям:", "3", "from_bottom", "0", "1")
+		wait "Сохранить изменения?"
+		click_and_wait_wanish("Да", "Сохранить изменения?", "3", "from_bottom", "0", "1")
+		for (i IN RANGE 0 10) {
+	    	if (NOT check "Незарегистрированный") {
+				mouse click "Клиентская безопасность"
+				mouse click "Время".move_down(50).move_right(155)
+				wait "Аутентификация"
+				mouse click "Пользователь".from_bottom(0).move_right(50)
+				sleep 1s
+				mouse click "User_2".from_bottom(0)
+				mouse click "Пароль".move_right(100)
+				sleep 3s
+				if (check "Рус") {
+					mouse click "Рус"
+				}
+				type "Qwerty@123"
+				press Enter
+				sleep 2s
+			} else {
+				break
+			}
+			if (check "Неправильное имя пользователя или пароль") {
+				click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
+			}
+		}
+		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_pack_event -f user_without_time_pack")
 	}
 }
