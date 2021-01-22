@@ -43,20 +43,20 @@ test InfinityClientSecurity_installation {
     	}
     	mouse click "Установить".from_bottom(0)
     	wait "Я согласен с условиями"; mouse click "Я согласен с условиями"
-    	click_and_wait("Далее", "Тип установки", "20", "from_bottom", "0", "1", "1")
+    	click_and_wait("Далее", "Тип установки", "5", "from_bottom", "0", "1", "1")
     	#mouse click "Далее".from_bottom(0)
-    	sleep 2s
-    	click_and_wait("Далее", "Готова к установке", "20", "from_bottom", "0", "1", "1")
+    	#sleep 2s
+    	click_and_wait("Далее", "Готова к установке", "5", "from_bottom", "0", "1", "1")
     	#mouse click "Далее".from_bottom(0)
-    	click_and_wait("Установить", "Процесс установки компонентов", "20", "from_bottom", "0", "1", "1")
+    	click_and_wait("Установить", "Процесс установки компонентов", "5", "from_bottom", "0", "1", "1")
     	#wait "Установить"; mouse click "Установить".from_bottom(0)
     	wait "Установка завершена" timeout 15m; 
-    	click_and_wait_wanish_2("ОК", "Установка завершена", "10", "from_bottom", "0", "1")
+    	click_and_wait_wanish_2("ОК", "Установка завершена", "5", "from_bottom", "0", "1")
     	wait "InfinityOLEDBProvider" timeout 15m; 
-    	click_and_wait_wanish("Выйти", "Выбрано компонентов", "10", "from_bottom", "0", "1")
+    	click_and_wait_wanish("Выйти", "Выбрано компонентов", "5", "from_bottom", "0", "1")
     	sleep 10s
     	clear_IA()
-    	sleep 5s
+    	sleep 1s
     	shutdown timeout 10m
     	start
     	win_wait("Admin", "Qwerty@123")
@@ -107,11 +107,6 @@ test CheckMenuItems: InfinityClientSecurity_installation{
 		type "  python c:\\dummy_autotests\\EventLogWorker.py -u find_pack_event -f Check_Menu_Items_pack"
 		press Enter
 		wait "Find"
-		#find_event_with_clear_terminal("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1001")
-		#find_event_with_clear_terminal("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1003")
-		#find_event_with_clear_terminal("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1004_16")
-		#find_event_with_clear_terminal("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1007")
-		#find_event_with_clear_terminal("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1150")
 		press LEFTALT + F4
 		sleep 2s
 
@@ -167,11 +162,10 @@ test AddGroup: InfinityClientSecurity_installation{
 		#Отрицательный результат при создании группы с пустым именем
 		mouse click "Создать".from_top(0)
 		wait "Название группы не может быть пустым"
-		#click_and_wait_wanish("OK", "Название группы не может быть пустым", "10", "from_right", "0", "1")
 		#По непонятной причине, строка сверху не работает (хз где он ОК находит, но не там где надо)
 		for (i IN RANGE 0 50) {
 	    	if (check "Название группы не может быть пустым") {
-				mouse click "Название группы не может быть пустым".move_down(55).move_right(106)#########
+				mouse click "Название группы не может быть пустым".move_down(55).move_right(106)
 				sleep 2s
 			} else {
 				break
@@ -184,17 +178,14 @@ test AddGroup: InfinityClientSecurity_installation{
 		type "Пользователи"
 		mouse click "Создать".from_top(0)
 		wait "Группа успешно создана"
-		#click_and_wait_wanish("OK", "Группа успешно создана", "5", "from_bottom", "0", "1")#########
 		for (i IN RANGE 0 50) {
 	    	if (check "Группа успешно создана") {
-				mouse click "Группа успешно создана".move_down(55).move_right(66)#########
+				mouse click "Группа успешно создана".move_down(55).move_right(66)
 				sleep 2s
 			} else {
 				break
 			}
 		}
-		#mouse click "OK".from_bottom(0)
-		#mouse click "Сохранить"
 		click_and_wait_wanish("Сохранить", "Создание/удаление групп", "5", "from_bottom", "0", "1")
 		#Проверяем запись в журнале аудита 
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f \"ics_add_group_2\"")
@@ -215,20 +206,20 @@ test RemoveGroup: AddGroup{
 		mouse click "Удалить"
 		wait "Создание/удаление групп"
 		mouse click "Users".from_bottom(0)
-		sleep 2s
+		sleep 1s
 		mouse click "Удалить"
-		sleep 2s
+		sleep 1s
 		#Положитеьный результат удаления группы Users
 		mouse click "Сохранить"
 		#Проверяем запись в журнале аудита
 		run_cmd()
-		sleep 2s
+		sleep 1s
 		RU_TO_ENG()
 		type "  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f \"ics_remove_group_1\""
 		press Enter
 		wait "Find"
 		press LEFTALT + F4
-		sleep 2s
+		sleep 1s
 
 
 		#Проверка удаления группы через правую кнопку мыши
@@ -242,13 +233,13 @@ test RemoveGroup: AddGroup{
 		mouse click "Сохранить"
 		#Проверяем запись в журнале аудита 
 		run_cmd()
-		sleep 2s
+		sleep 1s
 		RU_TO_ENG()
 		type "  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f \"ics_remove_group_2\""
 		press Enter
 		wait "Find"
 		press LEFTALT + F4
-		sleep 2s
+		sleep 1s
 	}
 }
 
@@ -296,26 +287,7 @@ test AddUser: AddGroup{
 		wait "Приложение завершает работу"
 		click_and_wait_wanish("OK", "Приложение завершает работу", "3", "from_bottom", "0", "1")
 		#Входим пользователем Admin, любая из 10 попыток с правильным паролем
-		for (i IN RANGE 0 10) {
-	    	if (NOT check "Admin") {
-				mouse click "Клиентская безопасность"
-				mouse click "Время".move_down(50).move_right(155)
-				wait "Аутентификация"
-				mouse click "Пользователь".from_bottom(0).move_right(50)
-				sleep 1s
-				mouse click "Admin".from_bottom(0)
-				mouse click "Пароль".move_right(100)
-				sleep 3s
-				type "Qwerty@123"
-				press Enter
-				sleep 2s
-			} else {
-				break
-			}
-			if (check "Неправильное имя пользователя или пароль") {
-				click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
-			}
-		}
+		login_to_ics("Admin", "Qwerty@123")
 		#Т.к. дальше идет массовый поиск строк в журнале аудита, то запускаем терминал один раз и используем его многократно
 		run_cmd()
 		sleep 2s
@@ -336,14 +308,14 @@ test AddUser: AddGroup{
 		sleep 5s
 		#Добавляем пользователя через главное меню
 		mouse click "Пользователи".from_bottom(0)
-		sleep 1s
+		#sleep 1s
 		click_and_wait("Действия","Добавить", "5", "from_bottom", "0", "1", "0")
 		click_and_wait("Добавить", "Импорт/удаление учетных записей", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("Импортировать", "В следующем месте", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("Дополнительно","Общие запросы", "10", "from_bottom", "0", "1", "1")
 		click_and_wait("Поиск","DefaultAccount", "10", "from_right", "0", "1", "1")
 		mouse click "User_1"
-		sleep 2s
+		#sleep 2s
 		click_and_wait_wanish("OK", "Выберите тип объекта", "5", "from_bottom", "0", "1")
 		click_and_wait_wanish("OK", "В следующем месте", "5", "from_bottom", "0", "1")
 		click_and_wait_wanish("Сохранить", "Импорт/удаление учетных записей", "5", "from_bottom", "0", "1")
@@ -364,10 +336,10 @@ test DefaultImportISAM: AddUser{
 	win_10 {
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
-		sleep 2s
+		#sleep 2s
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
 		mouse click "Выход"
-		sleep 5s
+		#sleep 5s
 		click_and_wait_wanish("Да", "Внимание! Перечисленным ниже пользователям", "5", "from_bottom", "0", "1")
 		click_and_wait_wanish("Да", "Сохранить изменения?", "5", "from_bottom", "0", "1")
 		#click_and_wait_wanish("Выход", "Настройка прав доступа", "5", "from_bottom", "0", "1")
@@ -413,7 +385,7 @@ test DefaultImportISAM: AddUser{
 		press Enter
 		type "exit"
 		press Enter
-		sleep 2s
+		#sleep 2s
 		#Проверяем невозможность восстановить файл по умолчанию (когда его нет на диске)
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
 		click_and_wait_wanish("Загрузить файл по умолчанию", "Выход", "5", "from_bottom", "0", "1")
@@ -443,29 +415,7 @@ test RebootSuccess: AddUser{
 	    }
 	    sleep 10s
 	    click_and_wait_wanish("Да", "Будет выполнен переход в гостевой режим", "5", "from_bottom", "0", "1")
-		for (i IN RANGE 0 10) {
-	    	if (NOT check "Admin") {
-				mouse click "Клиентская безопасность"
-				mouse click "Время".move_down(50).move_right(155)
-				wait "Аутентификация"
-				mouse click "Пользователь".from_bottom(0).move_right(50)
-				sleep 1s
-				mouse click "Admin".from_bottom(0)
-				mouse click "Пароль".move_right(100)
-				sleep 3s
-				if (check "Рус") {
-					mouse click "Рус"
-				}
-				type "Qwerty@123"
-				press Enter
-				sleep 2s
-			} else {
-				break
-			}
-			if (check "Неправильное имя пользователя или пароль") {
-				click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
-			}
-		}
+	    login_to_ics("Admin", "Qwerty@123")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1042")
 
 	}
@@ -510,7 +460,7 @@ test AddPerToUserAndGroup: AddEditTimePeriod {
 		pull_from_git()
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
-		sleep 2s
+		#sleep 2s
 		click_and_wait("Группы","Users", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("Users","Свойства группы", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
@@ -520,7 +470,7 @@ test AddPerToUserAndGroup: AddEditTimePeriod {
 		click_and_wait("Пользователи","Admin", "3", "from_bottom", "0", "1", "1")
 		#click_and_wait("Admin","Свойства пользователя", "5", "from_bottom", "0", "2", "1")
 		mouse dclick "Admin".from_bottom(1)
-		sleep 5s
+		#sleep 5s
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
 		mouse dclick "Period_1"
 		click_and_wait_wanish("Сохранить", "Назначенные временные периоды", "3", "from_bottom", "0", "1")
@@ -532,7 +482,7 @@ test RemPerToUserAndGroup: AddPerToUserAndGroup {
 	win_10 {
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
-		sleep 2s
+		#sleep 2s
 		click_and_wait("Группы","Users", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("Users","Свойства группы", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Временные периоды","Назначенные временные периоды", "5", "from_top", "0", "1", "1")
@@ -557,7 +507,7 @@ test AuditOnOff: InfinityClientSecurity_installation {
 		wait "Локально" timeout 3m
 		mouse click "Клиентская безопасность"
 		mouse click "Время".move_down(50)
-		sleep 10s
+		#sleep 10s
 		#Подтянули заранее созданную базу
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
 		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
@@ -567,7 +517,7 @@ test AuditOnOff: InfinityClientSecurity_installation {
 		mouse click "user_2_without_time_interval.isam"
 		click_and_wait_wanish("Открыть", "Открытие", "5", "from_bottom", "0", "1")
 		#Установка аудита для одной из функций на группу
-		click_and_wait("Группы", "Users", "5", "from_right", "0", "1", "1")
+		click_and_wait("Группы", "Users", "5", "from_left", "0", "1", "1")
 		click_and_wait("Users", "Свойства группы", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
 		mouse click "InfinityAlarms: Администрирование".move_right(432)

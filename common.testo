@@ -288,16 +288,21 @@ macro run_cmd(){
 
 macro run_power_shell_admin(){
 	run_from_start("Windows PowerShell (администратор)")
-	sleep 80s
+	#sleep 80s
 	#wait "Администратор: Windows PowerShell"
 	#click_and_wait("Windows PowerShell (администратор)", "Администратор: Windows PowerShell", "10", "from_bottom", "0", "2", "0")
-	
-	
-	if (check "Разрешить этому приложению") {
-		mouse click "Да".from_bottom(0)
-	}
 	mouse click 1 1
-	sleep 10s
+	for (i IN RANGE 0 120) {
+		if (check "Разрешить этому приложению") {
+			mouse click "Да".from_bottom(0)
+			sleep 1s
+		}
+		if (check "Администратор: Windows PowerShell"){
+			break
+		}
+		sleep 1s
+	}
+	
 	mouse click "Администратор: Windows PowerShell"
 	sleep 1s
 }
@@ -333,31 +338,45 @@ macro pull_from_git(){
 	#
 	run_power_shell_admin()
 	RU_TO_ENG()
-	type "Remove-Item -Recurse -Force \"C:\\dummy_autotests\""
+	type "   remove-item -recurse -force \"c:\\dummy_autotests\""
 	press Enter
 	sleep 2s
 	type "exit"
 	press Enter
 	sleep 2s
 	#
-	click_and_wait("Git Bash","MINGW64", "5", "from_right", "0", "2", "0")
+	click_and_wait("Git Bash","MINGW64", "15", "from_right", "0", "2", "0")
+	mouse click "MINGW64"
 	RU_TO_ENG()
 	type " cd c:"
 	press Enter
 	wait "MINGW64 /c" timeout 2m
 	type "git clone https://github.com/emashovvn2/dummy_autotests.git"
 	press Enter
-	#wait "Personal Access Token"
-	#mouse click "Personal Access Token"
-	#type "Qweasdzxc123\\"
-	#mouse click "Sign in".from_bottom(0)
-	#wait "Show input"
-	#type "emashovvn2"
-	#press Enter
-	#sleep 3s
-	#type "Qweasdzxc123\\"
-	#press Enter
 	wait "Resolving deltas: 100%"
 	type "exit"
 	press Enter
+}
+
+macro login_to_ics(user, password){
+	for (i IN RANGE 0 10) {
+	    if (NOT check "${user}") {
+			mouse click "Клиентская безопасность"
+			mouse click "Время".move_down(50).move_right(155)
+			wait "Аутентификация"
+			mouse click "Пользователь".from_bottom(0).move_right(50)
+			sleep 1s
+			mouse click "${user}".from_bottom(0)
+			mouse click "Пароль".move_right(100)
+			sleep 3s
+			type "${password}"
+			press Enter
+			sleep 2s
+		} else {
+			break
+		}
+		if (check "Неправильное имя пользователя или пароль") {
+			click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
+		}
+	}
 }
