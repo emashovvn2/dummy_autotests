@@ -1363,28 +1363,28 @@
             "i": "1163",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - Аудит выключен для функции: InfinityAlarms: Администрирование, для группы: Users"
+            "f": "WIN10_AUTOTEST\\Незарегистрированный - Аудит выключен для функции: InfinityAlarms: Администрирование, для группы: Users"
         },
     "ics_1164":
         {
             "i": "1164",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - Аудит включен для функции: InfinityAlarms: Администрирование, для группы: Users"
+            "f": "WIN10_AUTOTEST\\Незарегистрированный - Аудит включен для функции: InfinityAlarms: Администрирование, для группы: Users"
         },
     "ics_1165":
         {
             "i": "1165",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - Аудит выключен для функции: InfinityAlarms: Запуск приложения, для пользователя: User_2"
+            "f": "WIN10_AUTOTEST\\Незарегистрированный - Аудит выключен для функции: InfinityAlarms: Запуск приложения, для пользователя: User_2"
         },
     "ics_1166":
         {
             "i": "1166",
             "l": "InfinityAudit",
             "s": "localhost",
-            "f": "WIN10_AUTOTEST\\Admin - Аудит включен для функции: InfinityAlarms: Запуск приложения, для пользователя: User_2"
+            "f": "WIN10_AUTOTEST\\Незарегистрированный - Аудит включен для функции: InfinityAlarms: Запуск приложения, для пользователя: User_2"
         },
     "add_user_pack":
         {

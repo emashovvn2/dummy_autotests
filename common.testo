@@ -346,7 +346,7 @@ macro pull_from_git(){
 	sleep 2s
 	#
 	click_and_wait("Git Bash","MINGW64", "15", "from_right", "0", "2", "0")
-	mouse click "MINGW64"
+	mouse click "MINGW64".from_top(0)
 	RU_TO_ENG()
 	type " cd c:"
 	press Enter
