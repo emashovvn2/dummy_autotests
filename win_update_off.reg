@@ -1,0 +1,10 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate]
+"DoNotConnectToWindowsUpdateInternetLocations"=dword:00000001
+"UpdateServiceUrlAlternate"="server.wsus"
+"WUServer"="server.wsus"
+"WUStatusServer"="server.wsus"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU]
+"UseWUServer"=dword:00000001
