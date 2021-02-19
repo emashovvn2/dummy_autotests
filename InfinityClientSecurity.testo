@@ -4,11 +4,11 @@ network internet {
 	mode: "nat"
 }
 
-machine win_10 {
+machine win_10_pro_kraftway {
     cpus: 4
     ram: 4Gb
     disk main: {
-        source: "/var/lib/libvirt/images/win10.qcow2"
+        source: "/var/lib/libvirt/images/win_10_pro.qcow2"
     }
 
     nic nat: {
@@ -20,7 +20,7 @@ machine win_10 {
 
 test InfinityClientSecurity_installation {
 
-	win_10 {
+	win_10_pro_kraftway {
     	start
     	win_wait("Admin", "Qwerty@123")
     	#sleep 30s
@@ -67,7 +67,7 @@ test InfinityClientSecurity_installation {
 
 
 test CheckMenuItems: InfinityClientSecurity_installation{
-	win_10 {
+	win_10_pro_kraftway {
 		click_and_wait("Управл", "Управление Infinity", "20", "from_bottom", "0", "2", "1")
 		wait "Локально" timeout 3m
 		mouse click "Клиентская безопасность"
@@ -116,7 +116,7 @@ test CheckMenuItems: InfinityClientSecurity_installation{
 
 
 test AddGroup: InfinityClientSecurity_installation{
-	win_10 {
+	win_10_pro_kraftway {
 		click_and_wait("Управл", "Управление Infinity", "30", "from_bottom", "0", "2", "1")
 		wait "Локально" timeout 3m
 		clear_IA()
@@ -195,7 +195,7 @@ test AddGroup: InfinityClientSecurity_installation{
 
 
 test RemoveGroup: AddGroup{
-	win_10 {
+	win_10_pro_kraftway {
 		clear_IA()
 
 		#Удаление группы через меню Действия
@@ -250,7 +250,7 @@ test RemoveGroup: AddGroup{
 
 #Тест на добавление пользователя в папку Пользователи и группу Администраторы
 test AddUser: AddGroup{
-	win_10 {
+	win_10_pro_kraftway {
 		clear_IA()
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
@@ -333,15 +333,15 @@ test AddUser: AddGroup{
 }
 #Тест на импорт конфигурации и загрузку файла по умолчанию
 test DefaultImportISAM: AddUser{
-	win_10 {
+	win_10_pro_kraftway {
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
 		#sleep 2s
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
 		mouse click "Выход"
-		#sleep 5s
-		click_and_wait_wanish("Да", "Внимание! Перечисленным ниже пользователям", "5", "from_bottom", "0", "1")
-		click_and_wait_wanish("Да", "Сохранить изменения?", "5", "from_bottom", "0", "1")
+		sleep 5s
+		click_and_wait_wanish("Да", "Внимание! Перечисленным ниже пользователям", "10", "from_bottom", "0", "1")
+		click_and_wait_wanish("Да", "Сохранить изменения?", "10", "from_bottom", "0", "1")
 		#click_and_wait_wanish("Выход", "Настройка прав доступа", "5", "from_bottom", "0", "1")
 		#Проверка сообщения о закрытии конфигуратора ИКС
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1024")
@@ -396,7 +396,7 @@ test DefaultImportISAM: AddUser{
 
 #Тест на успешный автологин после перезагрузки
 test RebootSuccess: AddUser{
-	win_10 {
+	win_10_pro_kraftway {
 		mouse click 1 1
 		clear_IA()
 		shutdown timeout 10m
@@ -423,7 +423,7 @@ test RebootSuccess: AddUser{
 
 #Тест на создание, редактирование и удаление временного периода
 test AddEditTimePeriod: AddUser{
-	win_10 {
+	win_10_pro_kraftway {
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
 		sleep 2s
@@ -446,7 +446,7 @@ test AddEditTimePeriod: AddUser{
 
 
 test RemoveTimePeriod: AddEditTimePeriod {
-	win_10 {
+	win_10_pro_kraftway {
 		mouse click "Period_1".from_bottom(0)
 		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
 		click_and_wait("Удалить","Внимание! Временной период \"Period_1\" будет удален", "5", "from_right", "0", "1", "0")
@@ -456,8 +456,8 @@ test RemoveTimePeriod: AddEditTimePeriod {
 }
 
 test AddPerToUserAndGroup: AddEditTimePeriod {
-	win_10 {
-		pull_from_git()
+	win_10_pro_kraftway {
+		#pull_from_git()
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
 		#sleep 2s
@@ -479,7 +479,7 @@ test AddPerToUserAndGroup: AddEditTimePeriod {
 }
 
 test RemPerToUserAndGroup: AddPerToUserAndGroup {
-	win_10 {
+	win_10_pro_kraftway {
 		mouse click 1 1
 		mouse click "Настройка прав доступа"
 		#sleep 2s
@@ -500,8 +500,8 @@ test RemPerToUserAndGroup: AddPerToUserAndGroup {
 }
 
 test AuditOnOff: InfinityClientSecurity_installation {
-	win_10 {
-		pull_from_git()
+	win_10_pro_kraftway {
+		#pull_from_git()
 		mouse click 1 1
 		click_and_wait("Управл", "Управление Infinity", "20", "from_bottom", "0", "2", "1")
 		wait "Локально" timeout 3m
@@ -510,7 +510,7 @@ test AuditOnOff: InfinityClientSecurity_installation {
 		#sleep 10s
 		#Подтянули заранее созданную базу
 		click_and_wait("Файл","Выход", "5", "from_right", "0", "1", "0")
-		click_and_wait("Импорт файла", "Открытие", "5", "from_bottom", "0", "1", "0")
+		click_and_wait("Импорт файла", "Открытие", "15", "from_bottom", "0", "1", "0")
 		click_and_wait("Локальный ди", "dummy_autotests", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("dummy_autotests", "ICS", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("ICS", "user_2_without_time_interval.isam", "5", "from_bottom", "0", "2", "1")
@@ -531,14 +531,14 @@ test AuditOnOff: InfinityClientSecurity_installation {
 		click_and_wait_wanish("Сохранить", "Имя функции", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1163")
 		#Установка аудита для одной из функций на пользователя
-		click_and_wait("Пользователи", "User_2", "5", "from_right", "0", "1", "1")
+		click_and_wait("Пользователи", "User_2", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("User_2", "Свойства пользователя", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
 		mouse click "InfinityAlarms: Запуск приложения".move_right(432)
 		click_and_wait_wanish("Сохранить", "Имя функции", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1166")
 		#Установка аудита для одной из функций на пользователя
-		click_and_wait("Пользователи", "User_2", "5", "from_right", "0", "1", "1")
+		click_and_wait("Пользователи", "User_2", "5", "from_bottom", "0", "1", "1")
 		click_and_wait("User_2", "Свойства пользователя", "5", "from_bottom", "0", "2", "1")
 		click_and_wait("Разрешения", "Имя функции", "5", "from_bottom", "0", "1", "1")
 		mouse click "InfinityAlarms: Запуск приложения".move_right(432)
@@ -559,14 +559,16 @@ test AuditOnOff: InfinityClientSecurity_installation {
 				mouse click "Пользователь".from_bottom(0).move_right(50)
 				sleep 1s
 				mouse click "User_2".from_bottom(0)
-				mouse click "Пароль".move_right(100)
-				sleep 3s
+				
+				#sleep 3s
 				if (check "Рус") {
 					mouse click "Рус"
 				}
+				mouse click "Пароль".move_right(100)
+				sleep 2s
 				type "Qwerty@123"
 				press Enter
-				sleep 2s
+				#sleep 2s
 			} else {
 				break
 			}

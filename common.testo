@@ -281,6 +281,8 @@ for (i IN RANGE 0 50) {
 #в параметрах ярлыка настроенарабочая папка
 macro run_cmd(){
 	click_and_wait("cmd - Ярлык", "Microsoft Windows [", "5", "from_bottom", "0", "2", "0")
+	#click_and_wait("cmd - Ярлык", "Разрешить этому приложению", "5", "from_bottom", "0", "2", "0")
+	#click_and_wait("Да", "Microsoft Windows [", "5", "from_bottom", "0", "2", "0")
 	mouse click "Microsoft Windows ["
 	sleep 1s
 }
@@ -345,7 +347,7 @@ macro pull_from_git(){
 	press Enter
 	sleep 2s
 	#
-	click_and_wait("Git Bash","MINGW64", "15", "from_right", "0", "2", "0")
+	click_and_wait("Git Bash","MINGW64", "25", "from_right", "0", "2", "0")
 	mouse click "MINGW64".from_top(0)
 	RU_TO_ENG()
 	type " cd c:"
