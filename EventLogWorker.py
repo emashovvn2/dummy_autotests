@@ -2,11 +2,11 @@ import win32evtlog
 import argparse
 import sys
 import json
-with open("Event_dictionary.json") as read_file:
-    data = json.load(read_file)
+
+
+
     
 def createParser ():
-    
     parser = argparse.ArgumentParser()
     parser.add_argument ('--func', '-u', required=True)
     #parser.add_argument ('--id', '-i', default=1000)
@@ -21,7 +21,14 @@ def clear_log(logtype = "Application", server = 'localhost'):
     total = win32evtlog.GetNumberOfEventLogRecords(hand)
     win32evtlog.ClearEventLog(hand, None)
 
-def find_event_by_ID(ID, logtype = "Application", server = 'localhost', findStr = '', prn=True):
+#def find_event_by_ID(ID, logtype = "Application", server = 'localhost', findStr = '', prn=True):
+def find_event_by_ID(findStr_from_dictFile, prn=True):
+    with open("Event_dictionary.json") as read_file:
+        data = json.load(read_file)
+    ID = data[findStr_from_dictFile]['i']
+    logtype = data[findStr_from_dictFile]['l']
+    findStr = data[findStr_from_dictFile]['f']
+    server = data[findStr_from_dictFile]['s']
     hand = win32evtlog.OpenEventLog(server,logtype)
     flags = win32evtlog.EVENTLOG_BACKWARDS_READ|win32evtlog.EVENTLOG_SEQUENTIAL_READ
     total = win32evtlog.GetNumberOfEventLogRecords(hand)
@@ -56,19 +63,25 @@ def find_pack_event(FS):
         print("Not found events  -  " + str(not_found_events))
         return False
 
-parser = createParser()
-namespace = parser.parse_args(sys.argv[1:])
 
-if namespace.func == 'clear_log':
-    clear_log(logtype=namespace.log)
 
-if namespace.func == 'find_event_by_ID':
-    ID = data[namespace.find_string]['i']
-    LT = data[namespace.find_string]['l']
-    FS = data[namespace.find_string]['f']
-    SERV = data[namespace.find_string]['s']
-    find_event_by_ID(ID, logtype=LT, server=SERV, findStr=FS)
 
-if namespace.func == 'find_pack_event':
-    FS = data[namespace.find_string]['f']
-    find_pack_event(FS.split(' '))
+if __name__ == 'main':
+    parser = createParser()
+    namespace = parser.parse_args(sys.argv[1:])
+
+    if namespace.func == 'clear_log':
+        clear_log(logtype=namespace.log)
+
+    if namespace.func == 'find_event_by_ID':
+        #ID = data[namespace.find_string]['i']
+        #LT = data[namespace.find_string]['l']
+        #FS = data[namespace.find_string]['f']
+        #SERV = data[namespace.find_string]['s']
+        #find_event_by_ID(ID, logtype=LT, server=SERV, findStr=FS)
+        find_event_by_ID(namespace.find_string)
+
+    if namespace.func == 'find_pack_event':
+        FS = data[namespace.find_string]['f']
+        find_pack_event(FS.split(' '))
+
