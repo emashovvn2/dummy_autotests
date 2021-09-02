@@ -83,7 +83,7 @@ macro ENG_TO_RU_ALT() {
 
 macro RU_TO_ENG_ALT() {
 	for (i IN RANGE 0 50) {
-		if (check ("ENG")) {
+		if (check ("G")) {
 			break
 		} else {
 			press LEFTSHIFT + LEFTALT

@@ -54,7 +54,8 @@ def find_pack_event(FS):
         LT = data[evnt]['l']
         FS = data[evnt]['f']
         SERV = data[evnt]['s']
-        if not find_event_by_ID(ID, logtype=LT, server=SERV, findStr=FS, prn=False):
+        #if not find_event_by_ID(ID, logtype=LT, server=SERV, findStr=FS, prn=True):
+        if not find_event_by_ID(evnt, prn=False):
             not_found_events.append(ID)
     if len(not_found_events) == 0:
         print("Find")
@@ -65,11 +66,11 @@ def find_pack_event(FS):
 
 
 
-
-if __name__ == 'main':
+if __name__ == '__main__':
     parser = createParser()
     namespace = parser.parse_args(sys.argv[1:])
-
+    with open("Event_dictionary.json") as read_file:
+        data = json.load(read_file)
     if namespace.func == 'clear_log':
         clear_log(logtype=namespace.log)
 
