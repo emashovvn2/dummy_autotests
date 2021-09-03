@@ -369,6 +369,9 @@ macro login_to_ics(user, password){
 			mouse click "Пользователь".from_bottom(0).move_right(50)
 			sleep 1s
 			mouse click "${user}".from_bottom(0)
+			if (check "Рус") {
+				mouse click "Рус"
+				}
 			mouse click "Пароль".move_right(100)
 			sleep 3s
 			type "${password}"

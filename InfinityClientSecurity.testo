@@ -432,12 +432,13 @@ test AddEditTimePeriod: AddUser{
 		click_and_wait("Действия","Удалить", "5", "from_right", "0", "1", "0")
 		click_and_wait("Добавить","Круглосуточно", "5", "from_right", "0", "1", "0")
 		sleep 2s
-		mouse click "Наименование".move_down(10)
+		mouse click "Наименование".move_down(15)
 		type " Period_1"
 		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1030")
 		click_and_wait("Period_1","Круглосуточно", "5", "from_right", "0", "2", "0")
 		mouse click "Круглосуточно"
+		mouse click "Воскресенье"
 		click_and_wait_wanish("Сохранить", "Круглосуточно", "3", "from_bottom", "0", "1")
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_event_by_ID -f ics_1032")
 		sleep 3s
@@ -552,31 +553,59 @@ test AuditOnOff: InfinityClientSecurity_installation {
 		click_and_wait_wanish("Да", "Внимание! Перечисленным ниже пользователям:", "3", "from_bottom", "0", "1")
 		wait "Сохранить изменения?"
 		click_and_wait_wanish("Да", "Сохранить изменения?", "3", "from_bottom", "0", "1")
-		for (i IN RANGE 0 10) {
-	    	if (NOT check "Незарегистрированный") {
-				mouse click "Клиентская безопасность"
-				mouse click "Время".move_down(50).move_right(155)
-				wait "Аутентификация"
-				mouse click "Пользователь".from_bottom(0).move_right(50)
-				sleep 1s
-				mouse click "User_2".from_bottom(0)
+		login_to_ics("User_2","Qwerty@123")
+		sleep 5s
+		login_to_ics("User_1","Qwerty@123")
+		#for (i IN RANGE 0 10) {
+	    #	if (NOT check "Незарегистрированный") {
+		#		mouse click "Клиентская безопасность"
+		#		mouse click "Время".move_down(50).move_right(155)
+		#		wait "Аутентификация"
+		#		mouse click "Пользователь".from_bottom(0).move_right(50)
+		#		sleep 1s
+		#		mouse click "User_2".from_bottom(0)
 				
 				#sleep 3s
-				if (check "Рус") {
-					mouse click "Рус"
-				}
-				mouse click "Пароль".move_right(100)
-				sleep 2s
-				type "Qwerty@123"
-				press Enter
+		#		if (check "Рус") {
+		#			mouse click "Рус"
+		#		}
+		#		mouse click "Пароль".move_right(100)
+		#		sleep 2s
+		#		type "Qwerty@123"
+		#		press Enter
 				#sleep 2s
-			} else {
-				break
-			}
-			if (check "Неправильное имя пользователя или пароль") {
-				click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
-			}
-		}
+		#	} else {
+		#		break
+		#	}
+		#	if (check "Неправильное имя пользователя или пароль") {
+		#		click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
+		#	}
+		#}
+		#for (i IN RANGE 0 10) {
+	    #	if (NOT check "Незарегистрированный") {
+		#		mouse click "Клиентская безопасность"
+		#		mouse click "Время".move_down(50).move_right(155)
+		#		wait "Аутентификация"
+		#		mouse click "Пользователь".from_bottom(0).move_right(50)
+		#		sleep 1s
+		#		mouse click "User_1".from_bottom(0)
+		#		
+				#sleep 3s
+		#		if (check "Рус") {
+		#			mouse click "Рус"
+		#		}
+		#		mouse click "Пароль".move_right(100)
+		#		sleep 2s
+		#		type "Qwerty@123"
+		#		press Enter
+				#sleep 2s
+		#	} else {
+		#		break
+		#	}
+		#	if (check "Неправильное имя пользователя или пароль") {
+		#		click_and_wait_wanish("OK", "Неправильное имя пользователя или пароль", "3", "from_bottom", "0", "1")
+		#	}
+		#}
 		find_event("  python c:\\dummy_autotests\\EventLogWorker.py -u find_pack_event -f user_without_time_pack")
 	}
 }
